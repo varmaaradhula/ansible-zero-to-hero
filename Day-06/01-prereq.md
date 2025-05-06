@@ -26,6 +26,33 @@ openssl rand -base64 2048 > vault.pass
 ansible-vault create group_vars/all/pass.yml --vault-password-file vault.pass
 ```
 
+3. set vault password file in aws secret manager
+
+   ```
+ aws secretsmanager create-secret \
+  --name ansible/vault-password \
+  --secret-string 'your-strong-vault-password'
+  ```
+
+4. bash script to get vault password
+
+   ```
+#!/bin/bash
+aws secretsmanager get-secret-value \
+  --secret-id ansible/vault-password \
+  --query SecretString \
+  --output text
+  ```
+
+5. Run playbook with vault password which is in aws secrets manager
+
+    ```
+chmod +x get-vault-pass.sh
+
+ansible-playbook playbook.yml --vault-password-file ./get-vault-pass.sh
+
+  ```
+   
 
 
 
