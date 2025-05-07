@@ -17,6 +17,8 @@ ansible-galaxy collection install amazon.aws
 1. Create a password for vault
 
 ```
+echo 'mypassword123' > vault.pass
+(or)
 openssl rand -base64 2048 > vault.pass
 ```
 
